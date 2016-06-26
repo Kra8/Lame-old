@@ -16,7 +16,7 @@
 #   ・VirtualBox
 #   ・Vagrant
 #   ・Composer
-#   ・Larabel
+#   ・Laravel
 #   ・Homestead
 #
 #   *使用法*
