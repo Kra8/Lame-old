@@ -1,6 +1,8 @@
 # lame.sh
 Laravel + Homestead の環境を簡単に整えることを目的とするスクリプト                  
 
+![ラム](https://github.com/Kra8/lame/blob/master/data/lame_anime.jpg)
+
 ## 注意
 このスクリプトはHomebrewを用いて必要なソフトウェアを自動でインストールします。  
 そのため、Homebrewをインストールしていない環境ではHomebrewを最初にインストールします。  
