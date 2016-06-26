@@ -14,7 +14,7 @@ Laravel + Homestead の環境を簡単に整えることを目的とするスク
 * VirtualBox
 * Vagrant
 * Composer
-* Larabel
+* Laravel
 * Homestead
 
 ## 使用法
