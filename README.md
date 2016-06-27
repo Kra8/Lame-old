@@ -1,11 +1,31 @@
 # lame
 Laravel + Homestead の環境を簡単に整えることを目的とするスクリプト                  
 
-<<<<<<< HEAD
-
-=======
 ![ラム](https://github.com/Kra8/lame/blob/master/data/lame_anime.jpg)
->>>>>>> 8b19bdb3252db1a8db953106ed28ac6dee2e300a
+
+## インストール方法
+```
+bash installer.sh
+```
+そして、`~/.lame/bin/`にパスを通してください。
+```
+export PATH="$PATH:~/.lame/bin/"
+```
+また、常にパスを有効にする場合は`bash_profile`などにパスを書き込んでください。
+
+### アンインストールする場合
+```
+bash uninstaller.sh
+```
+
+## 使用方法
+プロジェクトを作成したいディレクトリでこのスクリプトを実行する。
+```
+$ ./lame.sh <プロジェクト名>
+```
+途中、/etc/hosts ファイルを編集するためにパスワードが問われます。  
+ローカルでプロジェクトにアクセスするために必要な処理ですので、パスワードを入力して処理を進めてください。  
+
 
 ## 注意
 このスクリプトはHomebrewを用いて必要なソフトウェアを自動でインストールします。  
@@ -21,13 +41,6 @@ Laravel + Homestead の環境を簡単に整えることを目的とするスク
 * Laravel
 * Homestead
 
-## 使用法
-プロジェクトを作成したいディレクトリでこのスクリプトを実行する。
-```
-$ ./lame.sh <プロジェクト名>
-```
-途中、/etc/hosts ファイルを編集するためにパスワードが問われます。  
-ローカルでプロジェクトにアクセスするために必要な処理ですので、パスワードを入力して処理を進めてください。  
 
 ## Future
 help機能(-help)  
@@ -35,7 +48,7 @@ help機能(-help)
 正しい設定を行っているかをチェックする機能(-d)  
 を追加したい。  
 
-@version    1.0.0  
-@update     2016/06/26  
+@version    1.0.1  
+@update     2016/06/27 
 @develop    K.Asai (asai@teaapplications.com)  
 
