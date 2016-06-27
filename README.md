@@ -52,6 +52,6 @@ help機能(-help)
 を追加したい。  
 
 @version    1.0.1  
-@update     2016/06/27 
+@update     2016/06/27  
 @develop    K.Asai (asai@teaapplications.com)  
 
