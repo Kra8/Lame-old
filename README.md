@@ -41,6 +41,9 @@ $ lame <プロジェクト名>
 * Laravel
 * Homestead
 
+## 動作環境
+macOS - OSX El Capitan 10.11.5
+それ以外の環境で動くかは試していません。
 
 ## Future
 help機能(-help)  
