@@ -117,7 +117,7 @@ else
     echo "composer is exists ... ${COLOR_RED}false${COLOR_OFF}"
     echo "Composer install ..."
     # vagrantのインストール
-    brew install composer
+    brew install Composer
 fi
 
 #==================================================================#
