@@ -6,12 +6,12 @@ Laravel + Homestead の環境を簡単に整えることを目的とするスク
 
 ## インストール方法
 ```
-curl -fsSL https://raw.githubusercontent.com/Kra8/lame/master/installer.sh | sh
+$ curl -fsSL https://raw.githubusercontent.com/Kra8/lame/master/installer.sh | sh
 ```
 
 ### アンインストールする場合
 ```
-bash uninstaller.sh
+$ curl -fsSL https://raw.githubusercontent.com/Kra8/lame/master/uninstaller.sh | sh
 ```
 
 ## 使用方法
@@ -42,6 +42,7 @@ macOS - OSX El Capitan 10.11.5
 それ以外の環境で動くかは試していません。
 
 ## Future
+各ソフトウェアのインストール部分と、プロジェクト作成部分の切り離し。
 プロジェクトをクリーンする機能(-c)  
 正しい設定を行っているかをチェックする機能(-d)  
 を追加したい。  
