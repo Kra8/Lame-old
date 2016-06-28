@@ -6,7 +6,7 @@ Laravel + Homestead の環境を簡単に整えることを目的とするスク
 
 ## インストール方法
 ```
-bash installer.sh
+curl -fsSL https://raw.githubusercontent.com/Kra8/lame/master/installer.sh | sh
 ```
 
 ### アンインストールする場合
