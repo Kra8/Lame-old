@@ -8,11 +8,6 @@ Laravel + Homestead の環境を簡単に整えることを目的とするスク
 ```
 bash installer.sh
 ```
-そして、`~/.lame/bin/`にパスを通してください。
-```
-export PATH="$PATH:~/.lame/bin/"
-```
-また、常にパスを有効にする場合は`bash_profile`などにパスを書き込んでください。
 
 ### アンインストールする場合
 ```
@@ -52,7 +47,7 @@ help機能(-help)
 正しい設定を行っているかをチェックする機能(-d)  
 を追加したい。  
 
-@version    1.0.2  
+@version    1.0.3  
 @update     2016/06/28  
 @develop    K.Asai (asai@teaapplications.com)  
 
