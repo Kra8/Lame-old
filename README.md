@@ -3,10 +3,6 @@ Laravel + Homestead の環境を簡単に整えることを目的とするスク
 
 ![ラム](https://github.com/Kra8/lame/blob/master/data/lame_anime.jpg)
 
-## WARNING
-現在Composerが入っていない環境で正しく実行できない不具合が発生しています。
-別途composerを正しくインストールした状態で実行するようにしてください。
-この不具合は現在修正中です。
 
 ## インストール方法
 ```
@@ -56,7 +52,7 @@ help機能(-help)
 正しい設定を行っているかをチェックする機能(-d)  
 を追加したい。  
 
-@version    1.0.1  
-@update     2016/06/27  
+@version    1.0.2  
+@update     2016/06/28  
 @develop    K.Asai (asai@teaapplications.com)  
 
