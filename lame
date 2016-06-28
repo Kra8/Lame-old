@@ -116,7 +116,9 @@ then
 else
     echo "composer is exists ... ${COLOR_RED}false${COLOR_OFF}"
     echo "Composer install ..."
-    # vagrantのインストール
+    # composer のインストールに必要なphp56をインストール
+    brew install php56
+    # composer のインストール
     brew install homebrew/php/composer
 fi
 
