@@ -42,12 +42,11 @@ macOS - OSX El Capitan 10.11.5
 それ以外の環境で動くかは試していません。
 
 ## Future
-help機能(-help)  
 プロジェクトをクリーンする機能(-c)  
 正しい設定を行っているかをチェックする機能(-d)  
 を追加したい。  
 
-@version    1.0.3  
+@version    1.1.0  
 @update     2016/06/28  
 @develop    K.Asai (asai@teaapplications.com)  
 
