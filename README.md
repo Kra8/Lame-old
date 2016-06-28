@@ -47,6 +47,6 @@ macOS - OSX El Capitan 10.11.5
 を追加したい。  
 
 @version    1.1.0  
-@update     2016/06/28  
+@update     2016/06/29  
 @develop    K.Asai (asai@teaapplications.com)  
 
