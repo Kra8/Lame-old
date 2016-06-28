@@ -1,19 +1,10 @@
 #!/usr/bin/env bash
 
-current=`pwd`
-rootPath="$HOME/.lame"
-binPath="${rootPath}/bin"
+script_path=`dirname $0`
+bin_path="/usr/local/bin/"
+lame_path="${bin_path}/lame"
 
-
-if [ ! -e $rootPath ]; then
-    mkdir $rootPath
-fi
-
-if [ ! -e $binPath ]; then
-    mkdir $binPath
-fi
-
-cp "${current}/lame" $binPath
-chmod u+x "${binPath}/lame"
+cp "${script_path}/lame" $bin_path
+chmod u+x "${lame_path}"
 
 echo "Lame installed!!"

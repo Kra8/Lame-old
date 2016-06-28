@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-current=`pwd`
-rootPath="$HOME/.lame"
-binPath="${rootPath}/bin"
+script_path=`dirname $0`
+bin_path="/usr/local/bin/"
+lame_path="${bin_path}/lame"
 
-rm -rf $rootPath
+rm $lame_path
 
 echo "Lame uninstalled!!"
