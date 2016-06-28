@@ -1,4 +1,4 @@
-# lame
+# Lame
 Laravel + Homestead の環境を簡単に整えることを目的とするスクリプト                  
 
 ![ラム](https://github.com/Kra8/lame/blob/master/data/lame_anime.jpg)
