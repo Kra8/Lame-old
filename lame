@@ -5,7 +5,7 @@
 #   lame
 #   Laravel + Homestead の環境を簡単に整えることを目的とするスクリプト                  
 #
-#   @version    1.1.0
+#   @version    1.1.1
 #   @update     2016/06/29
 #   @develop    K.Asai (asai@teaapplications.com)
 #
@@ -19,7 +19,7 @@ readonly COLOR_OFF="\033[m"
 readonly CURRENT=`pwd`
 
 readonly CMDNAME=$(basename $0)
-readonly VERSION="1.1.0"
+readonly VERSION="1.1.1"
 
 
 ############################# Functions #############################
@@ -55,12 +55,14 @@ function opt_help() {
     echo 
     echo "Usage:"
     echo "${CMDNAME} <project_name>"
-    echo "${CMDNAME} [options]"
+    echo "${CMDNAME} [options] [arguments]"
     echo
     echo "Options:"
     echo "  -h, --help              Display this help message"
     echo "  -v, --version           Display this application version"
-    echo "      --update            Update to latest version"           
+    echo "      --update            Update to latest version"
+    echo "      --install           Install need software"
+    echo "  -r,                     Resetting Homestead"
     echo
     echo "See:"
     echo "https://github.com/Kra8/lame"
@@ -71,17 +73,7 @@ function opt_update() {
     curl -fsSL https://raw.githubusercontent.com/Kra8/lame/master/installer.sh | sh
 }
 
-function new_project() {
-    project_name="$1"
-    
-    echo "${project_name} project crafting ..."
-
-    # already project file exist check
-    if [ -e "${CURRENT}/${project_name}" ]; then
-        abort "${COLOR_RED}Application already exists!${COLOR_OFF}"
-    fi
-
-    #==================================================================#
+function install_brew(){
     ## homebrewが存在するか 
     if [ `commandIsExists brew` = true ]; then
         echo "brew is exists ... ${COLOR_GREEN}true${COLOR_OFF}" 
@@ -99,9 +91,9 @@ function new_project() {
             exit 0
         fi
     fi
-    
-    #==================================================================#
+}
 
+function install_virtualbox(){
     ## virtualboxが存在するか。
     if [ `commandIsExists virtualbox` = true ]
     then
@@ -113,7 +105,9 @@ function new_project() {
         # virtualboxのインストール
         brew cask install virtualbox
     fi
+}
 
+function install_vagrant(){
     ## vagrantが存在するか。
     if [ `commandIsExists vagrant` = true ]
     then
@@ -124,9 +118,9 @@ function new_project() {
         # vagrantのインストール
         brew cask install vagrant
     fi
+}
 
-    #==================================================================#
-
+function install_composer(){
     ## composerが存在するか。
     if [ `commandIsExists composer` = true ]
     then
@@ -138,10 +132,10 @@ function new_project() {
         brew install php56
         # composer のインストール
         brew install homebrew/php/composer
-    fi
+    fi 
+}
 
-    #==================================================================#
-
+function install_laravel(){
     ## laravelが存在するか。
     commandPath="$HOME/.composer/vendor/bin/laravel"
     if [ -e ${commandPath} ]
@@ -152,12 +146,10 @@ function new_project() {
         echo "Laravel install ..."
         # laravelのインストール
         composer global require "laravel/installer=~1.1"
-    fi
+    fi  
+}
 
-
-    ## プロジェクトファイルの作成
-    $commandPath new $project_name
-
+function add_homestead_box(){
     ## boxの有無を確認する
     box_exists=`vagrant box list | grep -c 'homestead'`
     if [ ${box_exists} -gt 0 ]
@@ -168,8 +160,26 @@ function new_project() {
         # boxのダウンロード
         vagrant box add laravel/homestead
     fi
+}
 
+function opt_install() {
+    install_brew        #Homebrew
+    install_virtualbox  #VirtualBox
+    install_vagrant     #Vagrant
+    install_composer    #Composer
+    install_laravel     #Laravel
+    add_homestead_box   #Homestead Box
+}
 
+function setting_homestead(){
+    project_name="$1"
+    if [ -z $project_name ]; then
+        abort "${COLOR_RED}setting_homestead : please set arguments.${COLOR_OFF}"
+    fi
+    if [ -e "${CURRENT}/${project_name}" ]; then
+        abort "${COLOR_RED}setting_homestead : Application not found!${COLOR_OFF}"
+    fi
+    
     ## プロジェクトへHomesteadをインストール
     workPath="${CURRENT}/${project_name}"
     cd $workPath
@@ -184,25 +194,67 @@ function new_project() {
     sed -i -e '/ip: "192.168.10.10"/s/ip: "192.168.10.10"/ip: "10.0.0.33"/' Homestead.yaml
     sed -i -e "/- map: homestead.app/s/- map: homestead.app/- map: ${project_name}/" Homestead.yaml
     sed -i -e "/- homestead/s/- homestead/- ${project_name}/" Homestead.yaml
+}
 
-
+function setting_hosts() {
+    project_name="$1"
     ## etc/hostsファイルを編集
     add_texts="10.0.0.33 ${project_name} # writed by lame(Lravel + Homestead)"
     hosts_exists=`cat /etc/hosts | grep -c "$add_texts"`
-    if [ ${hosts_exists} -lt 1 ]
+    if [ $hosts_exists -lt 1 ]
     then
         echo "writing /etc/hosts"
         sudo sh -c "echo '${add_texts}' >> /etc/hosts"
     fi
+}
 
+function new_project() {
+    project_name="$1"
+    
+    # 必要なソフトウェアのチェックとインストール
+    opt_install
+    
+    echo "${project_name} project crafting ..."
+
+    # already project file exist check
+    if [ -e "${CURRENT}/${project_name}" ]; then
+        abort "${COLOR_RED}Application already exists!${COLOR_OFF}"
+    fi
+
+    ## プロジェクトファイルの作成
+    $commandPath new $project_name
+
+    ## homesteadを設定
+    setting_homestead $project_name
+    
+    ## etc/hostsファイルの編集
+    setting_hosts $project_name
 
     ## Homesteadを立ち上げる
     vagrant up
 
-
     ## ローカルで開く
     open http://${project_name}
 }
+
+function opt_repair(){
+    project_name="$1"
+    if [ -z $project_name ]; then
+        abort "${COLOR_RED}-r : please set arguments.${COLOR_OFF}"
+    fi
+    # file exist check
+    if [ ! -e "${CURRENT}/${project_name}" ]; then
+        abort "${COLOR_RED}${project_name} not found!${COLOR_OFF}"
+    fi
+    
+    cd "${CURRENT}/${project_name}"
+    
+    setting_homestead $project_name
+    
+    echo "Reset Homestead!"
+}
+
+
 
 ############################# 以下実行スクリプト #############################
 
@@ -229,6 +281,15 @@ do
             opt_update
             echo Lame : ${VERSION}
             echo
+            exit 0
+            ;;
+        '--install' )
+            opt_install
+            exit 0
+            ;;
+        '-r')
+            shift
+            opt_repair $1
             exit 0
             ;;
         -*)
