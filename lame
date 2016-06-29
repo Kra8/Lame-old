@@ -181,9 +181,16 @@ function setting_homestead(){
     if [ ! -e $workPath ]; then
         abort "${COLOR_RED}setting_homestead : '${workPath}' Application not found!${COLOR_OFF}"
     fi
-    
-    ## プロジェクトへHomesteadをインストール
+        
+    ## プロジェクトへ移動
     cd $workPath
+    
+    ## Homestead.yamlが存在する場合、削除する
+    if [ -e "Homestead.yaml" ]; then
+        rm Homestead.yaml
+    fi
+    
+    ## Homesteadのインストール
     composer require laravel/homestead --dev
 
     ## Vagrantfileの作成
@@ -247,6 +254,9 @@ function opt_repair(){
     fi
     
     cd "${CURRENT}/${project_name}"
+    
+    # virtualboxが立ち上がっている場合、電源をオフにする
+    vagrant halt
     
     setting_homestead $project_name
     
