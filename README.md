@@ -47,7 +47,7 @@ macOS - OSX El Capitan 10.11.5
 正しい設定を行っているかをチェックする機能(-d)  
 を追加したい。  
 
-@version    1.1.0  
+@version    1.1.1  
 @update     2016/06/29  
 @develop    K.Asai (asai@teaapplications.com)  
 
