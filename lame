@@ -176,19 +176,18 @@ function setting_homestead(){
     if [ -z $project_name ]; then
         abort "${COLOR_RED}setting_homestead : please set arguments.${COLOR_OFF}"
     fi
-    if [ -e "${CURRENT}/${project_name}" ]; then
-        abort "${COLOR_RED}setting_homestead : '${project_name}' Application not found!${COLOR_OFF}"
+    
+    workPath="${CURRENT}/${project_name}"
+    if [ ! -e $workPath ]; then
+        abort "${COLOR_RED}setting_homestead : '${workPath}' Application not found!${COLOR_OFF}"
     fi
     
     ## プロジェクトへHomesteadをインストール
-    workPath="${CURRENT}/${project_name}"
     cd $workPath
     composer require laravel/homestead --dev
 
-
     ## Vagrantfileの作成
     php vendor/bin/homestead make
-
 
     ## Homestead.yamlファイルの編集
     sed -i -e '/ip: "192.168.10.10"/s/ip: "192.168.10.10"/ip: "10.0.0.33"/' Homestead.yaml
