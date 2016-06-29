@@ -197,7 +197,10 @@ function setting_homestead(){
     php vendor/bin/homestead make
     
     ## Keyの作成
-    
+    if [ ! -e ".env" ]; then
+        cp .env.example .env
+    fi 
+    php artisan key:generate
 
     ## Homestead.yamlファイルの編集
     sed -i -e '/ip: "192.168.10.10"/s/ip: "192.168.10.10"/ip: "10.0.0.33"/' Homestead.yaml
