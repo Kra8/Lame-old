@@ -190,11 +190,6 @@ function setting_homestead(){
         rm Homestead.yaml
     fi
     
-    ## Vagrantfileが存在する場合、削除する
-    if [ -e "Vagrantfile" ]; then
-        rm Vagrantfile
-    fi
-    
     ## Homesteadのインストール
     composer require laravel/homestead --dev
 
@@ -259,9 +254,6 @@ function opt_repair(){
     fi
     
     cd "${CURRENT}/${project_name}"
-    
-    # virtualboxが立ち上がっている場合、電源をオフにする
-    vagrant halt
     
     setting_homestead $project_name
     
