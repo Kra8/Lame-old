@@ -190,6 +190,11 @@ function setting_homestead(){
         rm Homestead.yaml
     fi
     
+    ## Vagrantfileが存在する場合、削除する
+    if [ -e "Vagrantfile" ]; then
+        rm Vagrantfile
+    fi
+    
     ## Homesteadのインストール
     composer require laravel/homestead --dev
 
@@ -288,7 +293,6 @@ do
             ;;
         '--update' )
             opt_update
-            echo Lame : ${VERSION}
             echo
             exit 0
             ;;
