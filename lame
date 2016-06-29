@@ -177,7 +177,7 @@ function setting_homestead(){
         abort "${COLOR_RED}setting_homestead : please set arguments.${COLOR_OFF}"
     fi
     if [ -e "${CURRENT}/${project_name}" ]; then
-        abort "${COLOR_RED}setting_homestead : Application not found!${COLOR_OFF}"
+        abort "${COLOR_RED}setting_homestead : '${project_name}' Application not found!${COLOR_OFF}"
     fi
     
     ## プロジェクトへHomesteadをインストール
