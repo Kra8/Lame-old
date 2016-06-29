@@ -205,7 +205,7 @@ function setting_homestead(){
 
     ## Homestead.yamlファイルの編集
     sed -i -e '/ip: "192.168.10.10"/s/ip: "192.168.10.10"/ip: "10.0.0.33"/' Homestead.yaml
-    sed -i -e "/- map: homestead.app/s/- map: homestead.app/- map: ${project_name}/" Homestead.yaml
+    sed -i -e "/map: homestead.app/s/map: homestead.app/map: ${project_name}/" Homestead.yaml
     sed -i -e "/- homestead/s/- homestead/- ${project_name}/" Homestead.yaml
 }
 
