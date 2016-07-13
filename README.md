@@ -3,6 +3,14 @@ Laravel + Homestead の環境を簡単に整えることを目的とするスク
 
 ![ラム](https://github.com/Kra8/lame/blob/master/data/lame_anime.jpg)
 
+## 既知の不具合
+・ver1.1.1より -r オプションが使用できるが、理想の動作が行われない。（使用非推奨）
+・Composerが正しくインストールできない不具合。
+(対処法:Composerを別の方法で正しくインストールした場合、この不具合を回避できる）
+・SSHKeyを作成していない場合Vagrant up できない不具合
+(対処法:SSHKeyを作成する）
+
+これらの不具合は暇ができたら直す(｀・ω・´)ｷﾘｯ
 
 ## インストール方法
 ```
