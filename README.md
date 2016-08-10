@@ -3,8 +3,22 @@ Laravel + Homestead の環境を簡単に整えることを目的とするスク
 
 ![ラム](https://github.com/Kra8/lame/blob/master/data/lame_anime.jpg)
 
+## Ver 1.2.0
+・コマンドの使用方法を下記に変更
+```
+lame new <プロジェクト名>
+```
+
+・プロジェクトの構成を変更
+これにより、Gitを用いての開発が容易に。
+
+・rオプションを削除し、新たにrepairコマンドを追加
+repairコマンドでは、すでにLaravelプロジェクトが存在する場合に、Homesteadの環境を再構築する。
+```
+lame repair <プロジェクト名>
+```
+
 ## 既知の不具合
-・ver1.1.1より -r オプションが使用できるが、理想の動作が行われない。（使用非推奨）  
 ・Composerが正しくインストールできない不具合。  
 (対処法:Composerを別の方法で正しくインストールした場合、この不具合を回避できる）  
 ・SSHKeyを作成していない場合Vagrant up できない不具合  
@@ -25,7 +39,7 @@ $ curl -fsSL https://raw.githubusercontent.com/Kra8/lame/master/uninstaller.sh |
 ## 使用方法
 プロジェクトを作成したいディレクトリでこのスクリプトを実行する。
 ```
-$ lame <プロジェクト名>
+$ lame new <プロジェクト名>
 ```
 途中、/etc/hosts ファイルを編集するためにパスワードが問われます。  
 ローカルでプロジェクトにアクセスするために必要な処理ですので、パスワードを入力して処理を進めてください。  
@@ -55,7 +69,7 @@ macOS - OSX El Capitan 10.11.5
 正しい設定を行っているかをチェックする機能(-d)  
 を追加したい。  
 
-@version    1.1.1  
-@update     2016/06/29  
+@version    1.2.0  
+@update     2016/08/08  
 @develop    K.Asai (asai@teaapplications.com)  
 
