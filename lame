@@ -55,7 +55,7 @@ function opt_help() {
     echo 
     echo "Usage:"
     echo "${CMDNAME} [command] <project_name>"
-    echo "${CMDNAME} [options] [arguments]"
+    echo "${CMDNAME} [options]"
     echo
     echo "Command:"
     echo "  new                     Create New Laravel and Homestead Project"
