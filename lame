@@ -254,8 +254,6 @@ function new_project() {
     ## etc/hostsファイルの編集
     setting_hosts $project_name
 
-    exit 0
-
     ## Homesteadを立ち上げる
     vagrant up
 
