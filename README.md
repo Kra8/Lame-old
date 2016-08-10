@@ -4,15 +4,15 @@ Laravel + Homestead の環境を簡単に整えることを目的とするスク
 ![ラム](https://github.com/Kra8/lame/blob/master/data/lame_anime.jpg)
 
 ## Ver 1.2.0
-・コマンドの使用方法を下記に変更
+・コマンドの使用方法を下記に変更  
 ```
 lame new <プロジェクト名>
 ```
 
-・プロジェクトの構成を変更
-これにより、Gitを用いての開発が容易に。
+・プロジェクトの構成を変更  
+これにより、Gitを用いての開発が容易に。  
 
-・rオプションを削除し、新たにrepairコマンドを追加
+・rオプションを削除し、新たにrepairコマンドを追加  
 repairコマンドでは、すでにLaravelプロジェクトが存在する場合に、Homesteadの環境を再構築する。
 ```
 lame repair <プロジェクト名>
