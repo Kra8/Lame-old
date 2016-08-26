@@ -23,10 +23,24 @@ readonly VERSION="1.2.0"
 
 
 ############################# Functions #############################
+
+##
+# エラーメッセージを標準出力する
+#
+# @param string 
 function error() { echo "$@" 1>&2; }
+
+##
+# エラーメッセージを標準出力し、スクリプトを終了する
+# 
+# @param string
 function abort() { error "$@"; exit 1; }
 
-# コマンドが存在するかどうか
+## 
+# コマンドが存在するか否かを返す
+#
+# @param string
+# @return boolean
 function commandIsExists(){
     if type $1 2>/dev/null 1>/dev/null; 
     then
@@ -34,9 +48,12 @@ function commandIsExists(){
     else
         echo false
     fi
-} 
+}
 
+##
 # ユーザに yes/no の入力を促す
+#
+# @return boolean
 function askYesOrNo() {
     while true ; do
         read -p "$1 (y/n)?" answer
@@ -278,6 +295,15 @@ function opt_repair(){
     echo "Reset Homestead!"
 }
 
+
+##
+# lameが動作できる環境にあるか、チェックする
+# 不具合がある場合、エラーを出力し終了する。
+#
+function check(){
+    
+    
+}
 
 
 ############################# 以下実行スクリプト #############################
