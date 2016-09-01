@@ -5,8 +5,8 @@
 #   lame
 #   Laravel + Homestead の環境を簡単に整えることを目的とするスクリプト                  
 #
-#   @version    1.2.0
-#   @update     2016/08/09
+#   @version    1.2.1
+#   @update     2016/09/02
 #   @develop    K.Asai (asai@teaapplications.com)
 #
 #################################################################################
@@ -19,7 +19,7 @@ readonly COLOR_OFF="\033[m"
 readonly CURRENT=`pwd`
 
 readonly CMDNAME=$(basename $0)
-readonly VERSION="1.2.0"
+readonly VERSION="1.2.1"
 
 
 ############################# Functions #############################
@@ -39,16 +39,37 @@ function abort() { error "$@"; exit 1; }
 ## 
 # コマンドが存在するか否かを返す
 #
-# @param string
-# @return boolean
+# @param    string
+# @return   boolean
 function commandIsExists(){
     if type $1 2>/dev/null 1>/dev/null; 
     then
-        echo true
+        echo "$1 is exists ... ${COLOR_GREEN}true${COLOR_OFF}"
+        return 0
     else
-        echo false
+        echo "${COLOR_YELLOW}$1 is not found${COLOR_OFF}" 
+        return 1
     fi
 }
+
+## 
+# Boxが存在するか否かを返す
+#
+# @param    string
+# @return   boolean
+function boxIsExists(){
+    ## boxの有無を確認する
+    box_exists=`vagrant box list | grep -c $1`
+    if [ ${box_exists} -gt 0 ]
+    then
+        echo "$1 is exists ... ${COLOR_GREEN}true${COLOR_OFF}" 
+        return 0
+    else
+        echo "${COLOR_YELLOW}$1 is not found${COLOR_OFF}" 
+        return 1
+    fi
+}
+
 
 ##
 # ユーザに yes/no の入力を促す
@@ -67,6 +88,10 @@ function askYesOrNo() {
     done
 }
 
+##
+# help コマンド
+#
+# @command -h
 function opt_help() {
     echo "Lame : ${VERSION}"
     echo 
@@ -76,7 +101,9 @@ function opt_help() {
     echo
     echo "Command:"
     echo "  new                     Create New Laravel and Homestead Project"
+    echo "  clean                   Delete Laravel and Homestead Project"
     echo "  repair                  Resset Homestead"
+    echo "  check                   Check Installed need Software"
     echo 
     echo "Options:"
     echo "  -h, --help              Display this help message"
@@ -89,86 +116,87 @@ function opt_help() {
     echo
 }
 
+##
+# update コマンド
+#
+# @command -update
 function opt_update() {
     curl -fsSL https://raw.githubusercontent.com/Kra8/lame/master/installer.sh | sh
 }
 
+###########################################
+# Homebrewをインストールする
+#
 function install_brew(){
-    ## homebrewが存在するか 
-    if [ `commandIsExists brew` = true ]; then
-        echo "brew is exists ... ${COLOR_GREEN}true${COLOR_OFF}" 
-    else
-        # 存在しない場合、インストールを促す
-        echo "homebrew is exists ... ${COLOR_YELLOW}false${COLOR_OFF}"
-        askYesOrNo "Homebrew をインストールします"
-        if [ $? -eq 0 ]
-        then
-            # brew のインストール
-            /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-            # brew cask のインストール
-            brew install caskroom/cask/brew-cask
-        else
-            exit 0
-        fi
+    ## homebrewが存在しない場合インストールを開始する 
+    if ! commandIsExists brew;
+    then
+        echo "${COLOR_YELLOW}Homebrew installing ...${COLOR_OFF}"
+        # brew のインストール
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
 }
 
+###########################################
+# virtualboxをインストールする
+#
 function install_virtualbox(){
-    ## virtualboxが存在するか。
-    if [ `commandIsExists virtualbox` = true ]
+    ## virtualboxが存在しない場合インストールを開始する
+    if ! commandIsExists virtualbox;
     then
-        echo "virtualbox is exists ... ${COLOR_GREEN}true${COLOR_OFF}" 
-    else
-        # 存在しない場合インストールする
-        echo "virtualbox is exists ... ${COLOR_YELLOW}false${COLOR_OFF}"
-        echo "VirtualBox install ..."
+        echo "${COLOR_YELLOW}VirtualBox installing ...${COLOR_OFF}"
         # virtualboxのインストール
         brew cask install virtualbox
     fi
 }
 
+###########################################
+# vagrantをインストール
+#
 function install_vagrant(){
-    ## vagrantが存在するか。
-    if [ `commandIsExists vagrant` = true ]
+    ## vagrantが存在しない場合インストールを開始する
+    if ! commandIsExists virtualbox;
     then
-        echo "vagrant is exists ... ${COLOR_GREEN}true${COLOR_OFF}" 
-    else
-        echo "vagrant is exists ... ${COLOR_RED}false${COLOR_OFF}"
-        echo "Vagrant install ..."
+        echo "${COLOR_YELLOW}Vagrant installing ...${COLOR_OFF}"
         # vagrantのインストール
         brew cask install vagrant
     fi
 }
 
+###########################################
+# composerをインストール
+#
 function install_composer(){
-    ## composerが存在するか。
-    if [ `commandIsExists composer` = true ]
+    ## composerが存在しない場合インストールを開始する
+    if ! commandIsExists composer;
     then
-        echo "composer is exists ... ${COLOR_GREEN}true${COLOR_OFF}" 
-    else
-        echo "composer is exists ... ${COLOR_RED}false${COLOR_OFF}"
-        echo "Composer install ..."
+        echo "${COLOR_YELLOW}Composer installing ...${COLOR_OFF}"
         # composer のインストールに必要なphp56をインストール
         brew install php56
         # composer のインストール
         brew install homebrew/php/composer
-    fi 
+    fi
 }
 
+###########################################
+# laravelをインストール
+#
 function install_laravel(){
     ## laravelが存在するか。
-    commandPath="$HOME/.composer/vendor/bin/laravel"
-    if [ -e ${commandPath} ]
+    laravel="$HOME/.composer/vendor/bin/laravel"
+    
+    ## composerが存在しない場合インストールを開始する
+    if ! commandIsExists $laravel;
     then
-        echo "laravel is exists ... ${COLOR_GREEN}true${COLOR_OFF}" 
-    else
-        echo "laravel is exists ... ${COLOR_RED}false${COLOR_OFF}"
-        echo "Laravel install ..."
+        echo "${COLOR_YELLOW}Laravel installing ...${COLOR_OFF}"
         # laravelのインストール
         composer global require "laravel/installer=~1.1"
-    fi  
+    fi
 }
 
+##
+# boxをダウンロード
+#
 function add_homestead_box(){
     ## boxの有無を確認する
     box_exists=`vagrant box list | grep -c 'homestead'`
@@ -182,74 +210,94 @@ function add_homestead_box(){
     fi
 }
 
-function opt_install() {
-    install_brew        #Homebrew
-    install_virtualbox  #VirtualBox
-    install_vagrant     #Vagrant
-    install_composer    #Composer
-    install_laravel     #Laravel
-    add_homestead_box   #Homestead Box
-}
-
+##
+# homesteadの設定を行う
+#
 function setting_homestead(){
+    run_path=`pwd`
     project_name="$1"
+    project_name_small=`echo $project_name | tr [A-Z] [a-z]`
+
+    # 第一引数が存在するか否か
     if [ -z $project_name ]; then
         abort "${COLOR_RED}setting_homestead : please set arguments.${COLOR_OFF}"
     fi
     
-    workPath="${CURRENT}/${project_name}"
-    if [ ! -e $workPath ]; then
-        abort "${COLOR_RED}setting_homestead : '${workPath}' Application not found!${COLOR_OFF}"
+    workspace="${run_path}/${project_name}"
+    if [ ! -e $workspace ]; then
+        abort "${COLOR_RED}setting_homestead : '${workspace}' Application not found!${COLOR_OFF}"
     fi
-        
-    ## プロジェクトへ移動
-    cd $workPath
     
     echo "Setting Homestead..."
+    cd $workspace
     
     ## Homestead.yamlが存在する場合、削除する
-    if [ -e "Homestead.yaml" ]; then
-        rm Homestead.yaml
-    fi
+    if [ -e "Homestead.yaml" ]; 
+    then rm Homestead.yaml; fi
     
     ## Homesteadのインストール
     composer require laravel/homestead --dev
 
-    ## Vagrantfileの作成
+    ## yamlの作成
     php vendor/bin/homestead make
     
     ## Homestead.yamlファイルの編集
-    sed -i -e '/ip: "192.168.10.10"/s/ip: "192.168.10.10"/ip: "10.0.0.33"/' Homestead.yaml
-    sed -i -e "15s/\/${project_name}/\/${project_name}\/webroot/" Homestead.yaml
-    sed -i -e "/map: homestead.app/s/map: homestead.app/map: ${project_name}.dev/" Homestead.yaml
-    sed -i -e "/- homestead/s/- homestead/- ${project_name}/" Homestead.yaml
+    sed -i ".org" -e '/ip: "192.168.10.10"/s/ip: "192.168.10.10"/ip: "10.0.0.33"/' Homestead.yaml
+    sed -i -e "15s/${project_name}/${project_name}\/webroot/g" Homestead.yaml
+    sed -i -e "19s/homestead.app/${project_name_small}.dev/g" Homestead.yaml
+    sed -i -e "23s/homestead/${project_name_small}/" Homestead.yaml
     
-    ## Keyの作成
+    #余分なファイルの消去
+    rm Homestead.yaml-e
+    
+    ## webrootへ移動
     cd webroot
+
+    ## Key作成
     if [ ! -e ".env" ]; then
         echo "Create .env file"
         cp .env.example .env
     fi 
     php artisan key:generate
+    
+    ## 元のディレクトリへ移動 
+    cd $run_path
 }
 
+##
+# /etc/hostsファイルの編集
+#
 function setting_hosts() {
-    project_name="$1"
+    host_name="$1"
     ## etc/hostsファイルを編集
-    add_texts="10.0.0.33 ${project_name}.dev # writed by lame(Lravel + Homestead)"
-    hosts_exists=`cat /etc/hosts | grep -c "$add_texts"`
-    if [ $hosts_exists -lt 1 ]
+    add_text="10.0.0.33 ${host_name}.dev # writed by lame(Lravel + Homestead)"
+    host_exists=`cat /etc/hosts | grep -c "$add_text"`
+    if [ $host_exists -lt 1 ]
     then
         echo "writing /etc/hosts"
-        sudo sh -c "echo '${add_texts}' >> /etc/hosts"
+        sudo sh -c "echo '${add_text}' >> /etc/hosts"
     fi
 }
 
+##
+# 新規プロジェクトの作成
+#
 function new_project() {
-    project_name="$1"
     
-    # 必要なソフトウェアのチェックとインストール
-    opt_install
+    # var
+    project_name="$1"
+    project_name_small=`echo $project_name | tr [A-Z] [a-z]`
+    laravel="$HOME/.composer/vendor/bin/laravel"
+    
+    # 第一引数が存在するか否か
+    if [ -z $project_name ]; 
+    then abort "${COLOR_RED}new : please set arguments.${COLOR_OFF}"; fi
+    
+    # check
+    if check_all;
+    then echo "complete";
+    else abort "${COLOR_RED}please software install. or --install command.${COLOR_OFF}";
+    fi
     
     echo "${project_name} project crafting ..."
 
@@ -260,24 +308,27 @@ function new_project() {
 
     ## プロジェクトファイルの作成
     mkdir $project_name
-    cd $project_name
     
     ## Laravelのプロジェクトを作成
-    $commandPath new 'webroot'
+    $laravel new "${project_name}/webroot"
 
     ## homesteadを設定
     setting_homestead $project_name
     
     ## etc/hostsファイルの編集
-    setting_hosts $project_name
+    setting_hosts "${project_name_small}.dev"
 
     ## Homesteadを立ち上げる
+    cd ${project_name}
     vagrant up
 
     ## ローカルで開く
-    open http://${project_name}.dev
+    open http://${project_name_small}.dev
 }
 
+##
+# 
+#
 function opt_repair(){
     project_name="$1"
     if [ -z $project_name ]; then
@@ -300,11 +351,56 @@ function opt_repair(){
 # lameが動作できる環境にあるか、チェックする
 # 不具合がある場合、エラーを出力し終了する。
 #
-function check(){
+function check_all(){
+    laravel="$HOME/.composer/vendor/bin/laravel"
+    flag=0;
+
+    if ! commandIsExists  brew;       then flag=1; fi
+    if ! commandIsExists  virtualbox; then flag=1; fi
+    if ! commandIsExists  vagrant;    then flag=1; fi
+    if ! commandIsExists  composer;   then flag=1; fi
+    if ! commandIsExists  $laravel;   then flag=1; fi
+    if ! boxIsExists      homestead;  then flag=1; fi
     
-    
+    return $flag;
 }
 
+##
+# ソフトウェア全てインストール
+#
+function opt_install() {
+    install_brew        #Homebrew
+    install_virtualbox  #VirtualBox
+    install_vagrant     #Vagrant
+    install_composer    #Composer
+    install_laravel     #Laravel
+    add_homestead_box   #Homestead Box
+}
+
+function opt_clean(){
+    project_name=$1
+    run_path=`pwd`
+    
+    #第一引数が存在するか否か
+    if [ -z $project_name ]; 
+    then abort "${COLOR_RED}clean : please set arguments.${COLOR_OFF}"; fi
+    
+    # file exist check
+    if [ ! -e "${CURRENT}/${project_name}" ]; 
+    then abort "${COLOR_RED}${project_name} not found!${COLOR_OFF}"; fi
+    
+    #ディレクトリ移動
+    cd "${run_path}/${project_name}"
+    
+    #vagrant終了、および関連データの削除
+    vagrant destroy --force
+    
+    #ディレクトリを戻す
+    cd $run_path
+    
+    #ファイルを削除
+    rm -rf $project_name
+}
 
 ############################# 以下実行スクリプト #############################
 
@@ -336,6 +432,10 @@ do
             opt_install
             exit 0
             ;;
+        'check' )
+            check_all;
+            exit 0
+            ;;
         'repair')
             shift
             opt_repair $1
@@ -343,6 +443,10 @@ do
             ;;
         'new')
             new_project $2
+            exit 0
+            ;;
+        'clean')
+            opt_clean $2
             exit 0
             ;;
         -*)
