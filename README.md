@@ -1,22 +1,12 @@
 # Lame
 Laravel + Homestead の環境を簡単に整えることを目的とするスクリプト                  
 
-![ラム](https://github.com/Kra8/lame/blob/master/data/lame_anime.jpg)
-
-## Ver 1.2.0
-・コマンドの使用方法を下記に変更  
-```
-lame new <プロジェクト名>
-```
-
-・プロジェクトの構成を変更  
-これにより、Gitを用いての開発が容易に。  
-
-・rオプションを削除し、新たにrepairコマンドを追加  
-repairコマンドでは、すでにLaravelプロジェクトが存在する場合に、Homesteadの環境を再構築する。
-```
-lame repair <プロジェクト名>
-```
+## Ver 1.2.1
+・clean コマンド実装  
+・--check オプション実装  
+・install機能の切り離し  
+・動作環境の変更(php5.6以上)  
+・他軽微な不具合の修正
 
 ## 既知の不具合
 ・Composerが正しくインストールできない不具合。  
@@ -61,6 +51,7 @@ $ lame new <プロジェクト名>
 
 ## 動作環境
 macOS - OSX El Capitan 10.11.5  
+php5.6以上
 それ以外の環境で動くかは試していません。
 
 ## Future
@@ -69,7 +60,7 @@ macOS - OSX El Capitan 10.11.5
 正しい設定を行っているかをチェックする機能(-d)  
 を追加したい。  
 
-@version    1.2.0  
-@update     2016/08/08  
+@version    1.2.1  
+@update     2016/09/02  
 @develop    K.Asai (asai@teaapplications.com)  
 
