@@ -1,5 +1,23 @@
 # Lame
-Laravel + Homestead の環境を簡単に整えることを目的とするスクリプト                  
+Laravel + Homestead の環境を簡単に整えることを目的とするスクリプト  
+
+## Usage
+* `lame new <project_name>`  
+project_nameという新規プロジェクトを作成する。
+
+* `lame clean <project_name>`  
+project_nameを削除する
+
+* `lame --install`  
+Laravel+Homesteadに必要なソフトウェアをすべてインストールする
+
+* `lame --check`  
+Laravel+Homesteadに必要な環境が揃っているかチェックする
+
+
+## Ver 1.2.2
+* /etc/hostファイルに'example.dev'と書かれるはずが、'example.dev.dev'になる不具合を修正  
+* `--check`コマンドが`check`となっていたのを修正
 
 ## Ver 1.2.1
 ・clean コマンド実装  
@@ -50,14 +68,12 @@ $ lame new <プロジェクト名>
 * Homestead
 
 ## 動作環境
-macOS - OSX El Capitan 10.11.5  
-php5.6以上  
-
-## Future
-php5.4以上に対応したい。  
+macOS - OSX El Capitan 10.11.x 以上  
+php5.6 以上  
 
 
-@version    1.2.1  
-@update     2016/09/02  
+
+@version    1.2.2 
+@update     2016/11/14  
 @develop    K.Asai (asai@teaapplications.com)  
 
