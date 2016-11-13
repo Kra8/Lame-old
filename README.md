@@ -4,6 +4,8 @@ Laravel + Homestead の環境を簡単に整えることを目的とするスク
 ## Usage
 * `lame new <project_name>`  
 project_nameという新規プロジェクトを作成する。
+途中、/etc/hosts ファイルを編集するためにパスワードが問われます。  
+ローカルでプロジェクトにアクセスするために必要な処理ですので、パスワードを入力して処理を進めてください。  
 
 * `lame clean <project_name>`  
 project_nameを削除する
@@ -43,14 +45,6 @@ $ curl -fsSL https://raw.githubusercontent.com/Kra8/lame/master/installer.sh | s
 ```
 $ curl -fsSL https://raw.githubusercontent.com/Kra8/lame/master/uninstaller.sh | sh
 ```
-
-## 使用方法
-プロジェクトを作成したいディレクトリでこのスクリプトを実行する。
-```
-$ lame new <プロジェクト名>
-```
-途中、/etc/hosts ファイルを編集するためにパスワードが問われます。  
-ローカルでプロジェクトにアクセスするために必要な処理ですので、パスワードを入力して処理を進めてください。  
 
 
 ## 注意
