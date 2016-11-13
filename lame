@@ -270,7 +270,7 @@ function setting_homestead(){
 function setting_hosts() {
     host_name="$1"
     ## etc/hostsファイルを編集
-    add_text="10.0.0.33 ${host_name}.dev # writed by lame(Lravel + Homestead)"
+    add_text="10.0.0.33 ${host_name}.dev # writed by lame(Laravel + Homestead)"
     host_exists=`cat /etc/hosts | grep -c "$add_text"`
     if [ $host_exists -lt 1 ]
     then
@@ -316,7 +316,7 @@ function new_project() {
     setting_homestead $project_name
     
     ## etc/hostsファイルの編集
-    setting_hosts "${project_name_small}.dev"
+    setting_hosts "${project_name_small}"
 
     ## Homesteadを立ち上げる
     cd ${project_name}
