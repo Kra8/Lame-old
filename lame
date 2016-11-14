@@ -103,12 +103,12 @@ function opt_help() {
     echo "  new                     Create New Laravel and Homestead Project"
     echo "  clean                   Delete Laravel and Homestead Project"
     echo "  repair                  Resset Homestead"
-    echo "  check                   Check Installed need Software"
     echo 
     echo "Options:"
     echo "  -h, --help              Display this help message"
     echo "  -v, --version           Display this application version"
     echo "      --update            Update to latest version"
+    echo "      --check             Check Installed need Software"
     echo "      --install           Install need software"
     echo
     echo "See:"
