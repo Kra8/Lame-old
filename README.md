@@ -54,7 +54,7 @@ $ curl -fsSL https://raw.githubusercontent.com/Kra8/lame/master/uninstaller.sh |
 * Homestead
 
 ## LICENSE
-[The MIT License (MIT)]()
+[The MIT License (MIT)](https://github.com/Kra8/Lame/blob/master/LICENCE)
 
 ## 動作環境
 macOS - OSX El Capitan 10.11.x 以上  
