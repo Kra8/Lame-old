@@ -17,16 +17,8 @@ Laravel+Homesteadに必要なソフトウェアをすべてインストールす
 Laravel+Homesteadに必要な環境が揃っているかチェックする
 
 
-## Ver 1.2.2
-* /etc/hostファイルに'example.dev'と書かれるはずが、'example.dev.dev'になる不具合を修正  
-* `--check`コマンドが`check`となっていたのを修正
-
-## Ver 1.2.1
-・clean コマンド実装  
-・--check オプション実装  
-・install機能の切り離し  
-・動作環境の変更(php5.6以上)  
-・他軽微な不具合の修正  
+## Ver 1.3.0
+* Homestead 5.1に対応
 
 ## 既知の不具合
 ・Composerが正しくインストールできない不具合。  
@@ -61,13 +53,16 @@ $ curl -fsSL https://raw.githubusercontent.com/Kra8/lame/master/uninstaller.sh |
 * Laravel
 * Homestead
 
+## LICENSE
+[The MIT License (MIT)]()
+
 ## 動作環境
 macOS - OSX El Capitan 10.11.x 以上  
 php5.6 以上  
 
 
 
-@version    1.2.2 
-@update     2016/11/14  
+@version    1.3.0
+@update     2017/04/05  
 @develop    K.Asai (asai@teaapplications.com)  
 
