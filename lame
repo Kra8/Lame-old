@@ -210,12 +210,27 @@ function add_homestead_box() {
     fi
 }
 
+function edit_homestead_yaml() {
+    project_name="$1"
+    project_name_small=`echo $project_name | tr [A-Z] [a-z]`
+    workspace="${CURRENT}/${project_name}"
+
+    ## Homestead.yamlファイルの編集
+    sed -i ".org" -e '/192.168.10.10/s/192.168.10.10/10.0.0.33/' Homestead.yaml
+    sed -i -e "s:${workspace}:${workspace}/webroot:g" Homestead.yaml
+    sed -i -e "s/$project_name.app/${project_name_small}.dev/g" Homestead.yaml
+    sed -i -e "s:Code/::g" Homestead.yaml
+    sed -i -e "s:- homestead:- ${project_name_small}:g" Homestead.yaml
+
+    #余分なファイルの消去
+    rm -f Homestead.yaml-e
+}
+
 ##
 # homesteadの設定を行う
 #
 function setting_homestead() {
     project_name="$1"
-    project_name_small=`echo $project_name | tr [A-Z] [a-z]`
     workspace="${CURRENT}/${project_name}"
 
     # 第一引数が存在するか否か
@@ -227,7 +242,7 @@ function setting_homestead() {
         abort "${COLOR_RED}setting_homestead : '${workspace}' Application not found!${COLOR_OFF}"
     fi
 
-    echo "Setting Homestead..."
+    echo "Install Homestead..."
     cd $workspace
 
     ## Homestead.yamlが存在する場合、削除する
@@ -237,18 +252,12 @@ function setting_homestead() {
     ## Homesteadのインストール
     composer require laravel/homestead --dev
 
+    echo "Setting Homestead..."
     ## yamlの作成
     php vendor/bin/homestead make
 
     ## Homestead.yamlファイルの編集
-    sed -i ".org" -e '/192.168.10.10/s/192.168.10.10/10.0.0.33/' Homestead.yaml
-    sed -i -e "s:${workspace}:${workspace}/webroot:g" Homestead.yaml
-    sed -i -e "s/.app/.dev/g" Homestead.yaml
-    sed -i -e "s:Code/::g" Homestead.yaml
-    sed -i -e "s:- homestead:- ${project_name_small}:g" Homestead.yaml
-
-    #余分なファイルの消去
-    rm Homestead.yaml-e
+    edit_homestead_yaml $project_name
 
     ## webrootへ移動
     cd webroot
