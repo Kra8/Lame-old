@@ -16,6 +16,8 @@ Laravel+Homesteadに必要なソフトウェアをすべてインストールす
 * `lame --check`  
 Laravel+Homesteadに必要な環境が揃っているかチェックする
 
+## Ver 1.3.1
+バグ修正
 
 ## Ver 1.3.0
 * Homestead 5.1に対応
@@ -62,7 +64,6 @@ php5.6 以上
 
 
 
-@version    1.3.0
-@update     2017/04/05  
+@version    1.3.1
+@update     2017/04/22  
 @develop    K.Asai (asai@teaapplications.com)  
-
